@@ -11,9 +11,9 @@ Quando l’utente clicca su ogni cella, la cella cliccata si colora di azzurro (
 /**
 Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
 I numeri nella lista delle bombe non possono essere duplicati.
-
 In seguito l’utente clicca su ogni cella:
 se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso e la partita termina,
+
 altrimenti la cella cliccata si colora di azzurro e l’utente può continuare a cliccare sulle altre celle.
 (come detto sull’effetiva interfaccia fate voi, non ci son specifiche vincolanti, ma partite semplici)
 La partita termina quando il giocatore clicca su una bomba
@@ -28,8 +28,9 @@ const level1 = document.getElementById('level1');
 const level2 = document.getElementById('level2');
 const level3 = document.getElementById('level3');
 const grid = document.getElementById('grid');
+const result = document.getElementById('cell-checked');
 
-
+//console.log(squareCount);
 
 // scelta utente
 level1.addEventListener('click',
@@ -48,19 +49,22 @@ level3.addEventListener('click',
 // creazione griglia celle con numerazione interna
 function generateGrid(numCell, helperClass){
     grid.innerHTML = ""; // reset griglia!
+    let squareCount = 0;
+
 
     //generiamo un array di 16 numeri random
     generateBomb(numCell);
-    console.log(bomb);
+    console.log(bombs);
 
     for (i=0; i<numCell; i++) {
+        squareCount=0;
         let square = createElementWith2Class('div','square',helperClass)//richiama funz per creare div con 2 classi da passare
 
         let squareSpan = document.createElement('span');//crea span con numero cella
         squareSpan.append(i+1);
 
-        // se il numero i-esimo è uguale ed incluso ad un numero nell array bombe allora aggiungiamo classe css bomb allo square....
-        if (bomb.includes(i+1)){
+        // se il numero i-esimo è uguale ed incluso ad un numero nell array bombe allora aggiungiamo classe css bombs allo square....
+        if (bombs.includes(i+1)){
             square.classList.add('bomb');
         }
         
@@ -69,28 +73,46 @@ function generateGrid(numCell, helperClass){
         // evento click sulla cella singola che aggiunge classe checked
         square.addEventListener('click',
             function(){
+                //aggungi la classe checked allo square, 
                 this.classList.add('checked');
+
+                //se troviamo valore: square ${helperClass} bombs checked --> hai perso / scoppiano bombe
+                if ( this.classList.value === `square ${helperClass} bomb checked` ){
+                    console.log('hai perso!');
+                    //document.getElementsByTagName('bomb').classList.add('checked');
+                    
+                }
+
+                squareCount++ ;
+                result.innerText = `Punteggio: ${squareCount}`;
+                return squareCount
             }
+            
         );
         
+        
+        
+
         grid.appendChild(square);//appendi cella nella griglia
     }
+
+    return squareCount
 }
 
 // Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
 
 //generiamo un array di 16 numeri random tutti diversi che simulano le bombe
-let bomb = [];
+let bombs = [];
 function generateBomb(numCell){
-    bomb = [];
+    bombs = [];
     let i=0;
     while (i<15) {
-        if (!(bomb.includes(numRandom(numCell)))){
-            bomb.push(numRandom(numCell));
+        if (!(bombs.includes(numRandom(numCell)))){
+            bombs.push(numRandom(numCell));
             i++;
         }  
     }
-    return bomb;
+    return bombs;
 }
 
 // funzione numero random 

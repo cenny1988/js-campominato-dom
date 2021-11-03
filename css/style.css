@@ -72,6 +72,6 @@ button{
     background-color: red;
 }
 
-.square.checked>span{
+.square.checked>span, .square.checked.bomb>span{
     display: block;
 }
