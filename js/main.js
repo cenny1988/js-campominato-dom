@@ -50,16 +50,13 @@ level3.addEventListener('click',
 // creazione griglia celle con numerazione interna
 function generateGrid(numCell, helperClass){
     grid.innerHTML = ""; // reset griglia!
-    let squareCount = 0;
-    
-
-
-    //generiamo un array di 16 numeri random
-    generateBomb(numCell);
+    result.innerHTML = "";
+    winLose.innerHTML = "";
+    let squareCount = 0; //reset contatore punteggio
+    generateBomb(numCell); //generiamo un array di 16 bombe (numeri) random 
     console.log(bombs);
 
     for (i=0; i<numCell; i++) {
-        squareCount=0;
         let square = createElementWith2Class('div','square',helperClass)//richiama funz per creare div con 2 classi da passare
 
         let squareSpan = document.createElement('span');//crea span con numero cella
@@ -71,51 +68,36 @@ function generateGrid(numCell, helperClass){
         }
         
         square.appendChild(squareSpan);//appendi span nella cella
-
         
-        // evento click sulla cella singola che aggiunge classe checked
+        // evento click sulla cella singola -->controllare se ha vinto
         square.addEventListener('click',
             function(){
-                //se numCell - 16 !== al punteggio, fai controlli; 
-                //altrimenti allora hai vinto;
                 if(numCell-16 !== squareCount){
-                    // se clicco su uno square già evidenziato non incremento il punteggio
+                    // se clicco su uno square già cliccato non incremento il punteggio
                     if (this.classList.contains('checked')){
-                        console.log('cella gia cliccata')
                         //se troviamo valore: bombs --> hai perso / scoppiano bombe
-                    }else if( this.classList.contains('bomb')) {
-                        // hai perso!
+                    } else if( this.classList.contains('bomb')) {
                         winLose.innerText = `Game Over!`;
-                        let bombe = document.getElementsByClassName('bomb');//selezioniamo tutte le bombe
-                        // esplosione bombe
-                        for ( j=0; j<bombe.length; j++){
-                            bombe[j].classList.add('checked');
+                        let bombsHit = document.getElementsByClassName('bomb');//esplodono tutte le bombe
+                        for ( j=0; j<bombsHit.length; j++){
+                            bombsHit[j].classList.add('checked');
                         }
-                    }else{
-                    this.classList.add('checked');//aggungi la classe checked allo square, 
-                    squareCount++ ;// incrementiamo punteggio
-                    result.innerText = `Punteggio: ${squareCount}`;
+                    } else {
+                        this.classList.add('checked');//aggungi la classe checked allo square, 
+                        squareCount++ ;// incrementiamo punteggio
+                        result.innerText = `Il tuo punteggio è: ${squareCount}`;
                     }
                 }else winLose.innerText = `hai vinto!`;
-
                 return squareCount
             }
-            
         );
-        
-        
-        
-
         grid.appendChild(square);//appendi cella nella griglia
     }
-
-    return squareCount
 }
 
-// Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
 
-//generiamo un array di 16 numeri random tutti diversi che simulano le bombe
-
+//FUNZIONI 
+//funzione genera 16 bombe
 function generateBomb(numCell){
     bombs = [];
     let i=0;
@@ -128,7 +110,6 @@ function generateBomb(numCell){
     }
     return bombs;
 }
-
 // funzione numero random 
 function numRandom(numCell){
     return Math.floor(Math.random() * numCell) + 1;
