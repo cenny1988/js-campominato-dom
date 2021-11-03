@@ -36,8 +36,7 @@ const winLose = document.getElementById('winner-lose');
 
 // scelta utente
 level1.addEventListener('click',
-    ()=> generateGrid(100, 'ten'),
-    
+    ()=> generateGrid(100, 'ten')
 );
 
 level2.addEventListener('click',
@@ -98,7 +97,7 @@ function generateGrid(numCell, helperClass){
                     result.innerText = `Punteggio: ${squareCount}`;
                     }
                 }else winLose.innerText = `hai vinto!`;
-                
+
                 return squareCount
             }
             
