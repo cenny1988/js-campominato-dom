@@ -52,19 +52,26 @@ button{
 
 .square.ten{
     width: calc(100% / 10);
-    height: calc(100% / 10);
+    /* height: calc(100% / 10); */
+    aspect-ratio: 1;
 }
 .square.nine{
     width: calc(100% / 9);
-    height: calc(100% / 9);
+    /* height: calc(100% / 9); */
+    aspect-ratio: 1;
 }
 .square.seven{
     width: calc(100% / 7);
     /* height: calc(100% / 7); */
+    aspect-ratio: 1;
 }
 .square.checked{
     background-color: #fff;
 }
+.square.checked.bomb{
+    background-color: red;
+}
+
 .square.checked>span{
     display: block;
 }

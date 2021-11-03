@@ -11,6 +11,7 @@ Quando l’utente clicca su ogni cella, la cella cliccata si colora di azzurro (
 /**
 Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
 I numeri nella lista delle bombe non possono essere duplicati.
+
 In seguito l’utente clicca su ogni cella:
 se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso e la partita termina,
 altrimenti la cella cliccata si colora di azzurro e l’utente può continuare a cliccare sulle altre celle.
@@ -57,6 +58,11 @@ function generateGrid(numCell, helperClass){
 
         let squareSpan = document.createElement('span');//crea span con numero cella
         squareSpan.append(i+1);
+
+        // se il numero i-esimo è uguale ed incluso ad un numero nell array bombe allora aggiungiamo classe css bomb allo square....
+        if (bomb.includes(i+1)){
+            square.classList.add('bomb');
+        }
         
         square.appendChild(squareSpan);//appendi span nella cella
 
@@ -73,7 +79,7 @@ function generateGrid(numCell, helperClass){
 
 // Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
 
-//generiamo un array di 16 numeri random che simulano le bombe
+//generiamo un array di 16 numeri random tutti diversi che simulano le bombe
 let bomb = [];
 function generateBomb(numCell){
     bomb = [];
@@ -86,9 +92,6 @@ function generateBomb(numCell){
     }
     return bomb;
 }
-
-// generateBomb(numCell);
-
 
 // funzione numero random 
 function numRandom(numCell){
