@@ -28,6 +28,7 @@ const level1 = document.getElementById('level1');
 const level2 = document.getElementById('level2');
 const level3 = document.getElementById('level3');
 const grid = document.getElementById('grid');
+let bombs = [];
 const result = document.getElementById('cell-checked');
 
 //console.log(squareCount);
@@ -50,6 +51,7 @@ level3.addEventListener('click',
 function generateGrid(numCell, helperClass){
     grid.innerHTML = ""; // reset griglia!
     let squareCount = 0;
+    
 
 
     //generiamo un array di 16 numeri random
@@ -70,6 +72,7 @@ function generateGrid(numCell, helperClass){
         
         square.appendChild(squareSpan);//appendi span nella cella
 
+        
         // evento click sulla cella singola che aggiunge classe checked
         square.addEventListener('click',
             function(){
@@ -78,8 +81,14 @@ function generateGrid(numCell, helperClass){
 
                 //se troviamo valore: square ${helperClass} bombs checked --> hai perso / scoppiano bombe
                 if ( this.classList.value === `square ${helperClass} bomb checked` ){
+                    // hai perso!
                     console.log('hai perso!');
-                    //document.getElementsByTagName('bomb').classList.add('checked');
+                    let bombe = document.getElementsByClassName('bomb');//selezioniamo tutte le bombe
+
+                    // esplosione bombe
+                    for ( j=0; j<bombe.length; j++){
+                        bombe[j].classList.add('checked');
+                    }
                     
                 }
 
@@ -102,13 +111,14 @@ function generateGrid(numCell, helperClass){
 // Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
 
 //generiamo un array di 16 numeri random tutti diversi che simulano le bombe
-let bombs = [];
+
 function generateBomb(numCell){
     bombs = [];
     let i=0;
     while (i<15) {
-        if (!(bombs.includes(numRandom(numCell)))){
-            bombs.push(numRandom(numCell));
+        let n = numRandom(numCell)
+        if (bombs.includes(n)===false){
+            bombs.push(n);
             i++;
         }  
     }
