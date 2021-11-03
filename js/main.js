@@ -30,6 +30,7 @@ const level3 = document.getElementById('level3');
 const grid = document.getElementById('grid');
 let bombs = [];
 const result = document.getElementById('cell-checked');
+const winLose = document.getElementById('winner-lose');
 
 //console.log(squareCount);
 
@@ -76,24 +77,28 @@ function generateGrid(numCell, helperClass){
         // evento click sulla cella singola che aggiunge classe checked
         square.addEventListener('click',
             function(){
-                //aggungi la classe checked allo square, 
-                this.classList.add('checked');
-
-                //se troviamo valore: square ${helperClass} bombs checked --> hai perso / scoppiano bombe
-                if ( this.classList.value === `square ${helperClass} bomb checked` ){
-                    // hai perso!
-                    console.log('hai perso!');
-                    let bombe = document.getElementsByClassName('bomb');//selezioniamo tutte le bombe
-
-                    // esplosione bombe
-                    for ( j=0; j<bombe.length; j++){
-                        bombe[j].classList.add('checked');
+                //se numCell - 16 !== al punteggio, fai controlli; 
+                //altrimenti allora hai vinto;
+                if(numCell-16 !== squareCount){
+                    // se clicco su uno square già evidenziato non incremento il punteggio
+                    if (this.classList.contains('checked')){
+                        console.log('cella gia cliccata')
+                        //se troviamo valore: bombs --> hai perso / scoppiano bombe
+                    }else if( this.classList.contains('bomb')) {
+                        // hai perso!
+                        winLose.innerText = `Game Over!`;
+                        let bombe = document.getElementsByClassName('bomb');//selezioniamo tutte le bombe
+                        // esplosione bombe
+                        for ( j=0; j<bombe.length; j++){
+                            bombe[j].classList.add('checked');
+                        }
+                    }else{
+                    this.classList.add('checked');//aggungi la classe checked allo square, 
+                    squareCount++ ;// incrementiamo punteggio
+                    result.innerText = `Punteggio: ${squareCount}`;
                     }
-                    
-                }
-
-                squareCount++ ;
-                result.innerText = `Punteggio: ${squareCount}`;
+                }else winLose.innerText = `hai vinto!`;
+                
                 return squareCount
             }
             
